@@ -73,7 +73,7 @@
 
             function loadQuestion() {
                 if (currentIndex >= vocabulary.length) {
-                    return Swal.fire({ title: "🎉 Ajoyib natija!", text: "Siz barcha so‘zlarni to‘g‘ri topdingiz!", icon: "success", confirmButtonText: "Qayta boshlash", backdrop: false }).then(resetGame);
+                    return Swal.fire({ title: "🎉 Ajoyib natija!", text: "Siz barcha so‘zlarni to‘g‘ri topdingiz!", icon: "success", confirmButtonText: "Qayta boshlash", position: "top", backdrop: false }).then(resetGame);
                 }
 
                 const currentWord = vocabulary[currentIndex];
@@ -103,15 +103,15 @@
                 const correctAnswer = capitalize(vocabulary[currentIndex][mode === "word" ? "translation" : "word"]);
 
                 if (selected === correctAnswer) {
-                    Swal.fire({ title: "✅ To‘g‘ri!", text: "Davom etamiz!", icon: "success", timer: 1000, showConfirmButton: false, backdrop: false });
+                    Swal.fire({ title: "✅ To‘g‘ri!", text: "Davom etamiz!", icon: "success", timer: 1000, showConfirmButton: false, position: "top", backdrop: false });
                     currentIndex++;
                     setTimeout(loadQuestion, 1000);
                 } else {
                     mistakeCount++;
                     if (mistakeCount >= 5) {
-                        Swal.fire({ title: "❌ Juda ko‘p xato qildingiz!", text: "O‘yin qayta boshlanadi.", icon: "error", confirmButtonText: "OK", backdrop: false }).then(resetGame);
+                        Swal.fire({ title: "❌ Juda ko‘p xato qildingiz!", text: "O‘yin qayta boshlanadi.", icon: "error", confirmButtonText: "OK", position: "top", backdrop: false }).then(resetGame);
                     } else {
-                        Swal.fire({ title: "❌ Noto‘g‘ri!", text: `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi!`, icon: "error", timer: 1500, showConfirmButton: false, backdrop: false });
+                        Swal.fire({ title: "❌ Noto‘g‘ri!", text: `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi!`, icon: "error", timer: 1500, showConfirmButton: false, position: "top", backdrop: false });
                     }
                 }
             }

@@ -38,8 +38,8 @@ body {
 }
 
 .btn:hover {
-  transform: scale(1.05);
-  background-color: #ff4757 !important;
+  background-color: #ff6b81;
+  color: white;
 }
 
 #word {
