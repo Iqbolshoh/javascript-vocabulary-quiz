@@ -102,7 +102,7 @@
                 }
 
                 optionsContainer.innerHTML = shuffle([...options]).map(option =>
-                    `<button class="btn" onclick="checkAnswer('${option}')">${option}</button>`
+                    `<button class="btn" onclick="checkAnswer(\`${option}\`)">${option}</button>`
                 ).join("");
             }
 
