@@ -42,6 +42,14 @@ body {
   color: white;
 }
 
+.btn:active {
+  background-color: #ff4f68;
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 107, 129, 0.5);
+  font-size: 20px;
+  transform: scale(1.05);
+}
+
 #word {
   font-size: 2.2rem;
   font-weight: bold;
