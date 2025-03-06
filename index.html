@@ -52,6 +52,7 @@
             let timer;
             let timeLeft = 15;
             let totalScore = 0;
+            let isProcessing = false;
 
             vocabSelect.addEventListener("change", loadVocabulary);
             modeSelect.addEventListener("change", () => {
@@ -107,6 +108,9 @@
             }
 
             window.checkAnswer = function (selected) {
+                if (isProcessing) return;
+                isProcessing = true;
+
                 const correctAnswer = capitalize(vocabulary[currentIndex][mode === "word" ? "translation" : "word"]);
                 const word = capitalize(vocabulary[currentIndex][mode === "word" ? "word" : "translation"]);
 
@@ -119,15 +123,21 @@
                     showResult("✅ To‘g‘ri!", `Davom etamiz! Sizning ballingiz: ${totalScore}`, "success", () => {
                         currentIndex++;
                         timeLeft = 15;
+                        isProcessing = false;
                         loadQuestion();
                     });
                 } else {
                     mistakeCount++;
                     if (mistakeCount >= 5) {
                         clearInterval(timer);
-                        showResult("❌ Juda ko‘p xato qildingiz!", `O‘yin qayta boshlanadi. Umumiy ball: ${totalScore}`, "error", resetGame);
+                        showResult("❌ Juda ko‘p xato qildingiz!", `O‘yin qayta boshlanadi. Umumiy ball: ${totalScore}`, "error", () => {
+                            isProcessing = false;
+                            resetGame();
+                        });
                     } else {
-                        showResult("❌ Noto‘g‘ri!", `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi! Umumiy ball: ${totalScore}`, "error");
+                        showResult("❌ Noto‘g‘ri!", `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi! Umumiy ball: ${totalScore}`, "error", () => {
+                            isProcessing = false;
+                        });
                     }
                 }
             }
