@@ -1,0 +1,66 @@
+body {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.card,
+.form-select {
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  animation: fadeIn 1s ease-in-out;
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 10px;
+}
+
+.card {
+  background: white;
+  color: black;
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.btn {
+  transition: all 0.3s;
+  font-size: 18px;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: #ff6b81;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  background-color: #ff4757 !important;
+}
+
+#word {
+  font-size: 2.5rem;
+  font-weight: bold;
+  opacity: 0;
+  animation: slideIn 0.8s forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#mode-select {
+  display: none;
+}
