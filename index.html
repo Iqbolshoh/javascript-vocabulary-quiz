@@ -20,7 +20,7 @@
     </select>
 
     <select id="mode-select" class="form-select" onchange="loadQuestion()">
-        <option value="Word" selected>Word → Translation</option>
+        <option value="word" selected>Word → Translation</option>
         <option value="Translation">Translation → Word</option>
     </select>
 
@@ -35,126 +35,106 @@
     </div>
 
     <script>
-        let vocabulary = [];
-        let currentIndex = 0;
-        let mistakeCount = 0;
-        let mode = "Word";
+        document.addEventListener("DOMContentLoaded", () => {
+            const vocabSelect = document.getElementById("vocab-select");
+            const modeSelect = document.getElementById("mode-select");
+            const gameCard = document.getElementById("game-card");
+            const wordContainer = document.getElementById("word");
+            const emojiContainer = document.getElementById("emoji");
+            const questionNumber = document.getElementById("question-number");
+            const optionsContainer = document.getElementById("options");
 
-        function loadVocabulary() {
-            let vocabFile = document.getElementById("vocab-select").value;
-            if (!vocabFile) return;
+            let vocabulary = [];
+            let currentIndex = 0;
+            let mistakeCount = 0;
+            let mode = "translation";
 
-            fetch(vocabFile)
-                .then(response => response.json())
-                .then(data => {
-                    vocabulary = data;
-                    currentIndex = 0;
-                    mistakeCount = 0;
-                    document.getElementById("game-card").classList.remove("d-none");
-                    document.getElementById("mode-select").style.display = "block";
+            vocabSelect.addEventListener("change", loadVocabulary);
+            modeSelect.addEventListener("change", () => {
+                mode = modeSelect.value;
+                loadQuestion();
+            });
+
+            async function loadVocabulary() {
+                const vocabFile = vocabSelect.value;
+                if (!vocabFile) return;
+
+                try {
+                    const response = await fetch(vocabFile);
+                    vocabulary = await response.json();
+                    currentIndex = mistakeCount = 0;
+                    gameCard.classList.remove("d-none");
+                    modeSelect.style.display = "block";
                     loadQuestion();
-                })
-                .catch(error => console.error("Xatolik yuz berdi:", error));
-        }
-
-        function capitalizeFirstLetter(string) {
-            return string.charAt(0).toUpperCase() + string.slice(1);
-        }
-
-        function shuffle(array) {
-            return array.sort(() => Math.random() - 0.5);
-        }
-
-        function loadQuestion() {
-            if (currentIndex >= vocabulary.length) {
-                Swal.fire({
-                    title: "🎉 Ajoyib natija!",
-                    text: "Siz barcha so‘zlarni to‘g‘ri topdingiz!",
-                    icon: "success",
-                    confirmButtonText: "Qayta boshlash",
-                    backdrop: false,
-                }).then(resetGame);
-                return;
-            }
-
-            let currentWord = vocabulary[currentIndex];
-            let questionText, correctAnswer;
-
-            if (mode === "Word") {
-                questionText = capitalizeFirstLetter(currentWord.word);
-                correctAnswer = capitalizeFirstLetter(currentWord.translation);
-            } else {
-                questionText = capitalizeFirstLetter(currentWord.translation);
-                correctAnswer = capitalizeFirstLetter(currentWord.word);
-            }
-
-            document.getElementById("word").innerText = questionText;
-            document.getElementById("emoji").innerText = currentWord.emoji;
-            document.getElementById("question-number").innerText = `Savol ${currentIndex + 1} / ${vocabulary.length}`;
-
-            let options = [correctAnswer];
-            while (options.length < 3) {
-                let randomWord = mode === "Word" ? capitalizeFirstLetter(vocabulary[Math.floor(Math.random() * vocabulary.length)].translation) : capitalizeFirstLetter(vocabulary[Math.floor(Math.random() * vocabulary.length)].word);
-                if (!options.includes(randomWord)) {
-                    options.push(randomWord);
+                } catch (error) {
+                    console.error("Xatolik yuz berdi:", error);
                 }
             }
 
-            options = shuffle(options);
-            document.getElementById("options").innerHTML = options
-                .map(option => `<button class="btn" onclick="checkAnswer('${option}')">${option}</button>`)
-                .join("");
-        }
+            function loadQuestion() {
+                if (currentIndex >= vocabulary.length) {
+                    return Swal.fire({ title: "🎉 Ajoyib natija!", text: "Siz barcha so‘zlarni to‘g‘ri topdingiz!", icon: "success", confirmButtonText: "Qayta boshlash", backdrop: false }).then(resetGame);
+                }
 
-        function checkAnswer(selected) {
-            let currentWord = vocabulary[currentIndex];
-            let correctAnswer = mode === "Word" ? capitalizeFirstLetter(currentWord.translation) : capitalizeFirstLetter(currentWord.word);
+                const currentWord = vocabulary[currentIndex];
+                const questionText = capitalize(mode === "word" ? currentWord.word : currentWord.translation);
+                const correctAnswer = capitalize(mode === "word" ? currentWord.translation : currentWord.word);
 
-            if (selected === correctAnswer) {
-                Swal.fire({
-                    title: "✅ To‘g‘ri!",
-                    text: "Davom etamiz!",
-                    icon: "success",
-                    timer: 1000,
-                    showConfirmButton: false,
-                    backdrop: false,
-                    position: "top"
-                });
-                currentIndex++;
-                setTimeout(loadQuestion, 1200);
-            } else {
-                mistakeCount++;
-                Swal.fire({
-                    title: "❌ Noto‘g‘ri!",
-                    text: `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi!`,
-                    icon: "error",
-                    timer: 1500,
-                    showConfirmButton: false,
-                    backdrop: false,
-                    position: "top"
-                });
-                if (mistakeCount >= 5) resetGame();
+                wordContainer.innerText = questionText;
+                emojiContainer.innerText = currentWord.emoji;
+                questionNumber.innerText = `Savol ${currentIndex + 1} / ${vocabulary.length}`;
+
+                generateOptions(correctAnswer);
             }
-        }
 
-        function resetGame() {
-            currentIndex = 0;
-            mistakeCount = 0;
-            loadQuestion();
-        }
+            function generateOptions(correctAnswer) {
+                let options = new Set([correctAnswer]);
+                while (options.size < 3) {
+                    let randomWord = capitalize(vocabulary[Math.floor(Math.random() * vocabulary.length)][mode === "word" ? "translation" : "word"]);
+                    options.add(randomWord);
+                }
 
-        function speakText() {
-            let text = document.getElementById("word").innerText.trim();
-            let speech = new SpeechSynthesisUtterance(text);
-            speech.lang = "en-US";
-            speech.rate = 1;
-            speech.pitch = 1;
-            window.speechSynthesis.speak(speech);
-        }
+                optionsContainer.innerHTML = shuffle([...options]).map(option =>
+                    `<button class="btn" onclick="checkAnswer('${option}')">${option}</button>`
+                ).join("");
+            }
 
-        document.getElementById("mode-select").addEventListener("change", function () {
-            mode = this.value;
-            loadQuestion();
+            window.checkAnswer = function (selected) {
+                const correctAnswer = capitalize(vocabulary[currentIndex][mode === "word" ? "translation" : "word"]);
+
+                if (selected === correctAnswer) {
+                    Swal.fire({ title: "✅ To‘g‘ri!", text: "Davom etamiz!", icon: "success", timer: 1000, showConfirmButton: false, backdrop: false });
+                    currentIndex++;
+                    setTimeout(loadQuestion, 1000);
+                } else {
+                    mistakeCount++;
+                    if (mistakeCount >= 5) {
+                        Swal.fire({ title: "❌ Juda ko‘p xato qildingiz!", text: "O‘yin qayta boshlanadi.", icon: "error", confirmButtonText: "OK", backdrop: false }).then(resetGame);
+                    } else {
+                        Swal.fire({ title: "❌ Noto‘g‘ri!", text: `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi!`, icon: "error", timer: 1500, showConfirmButton: false, backdrop: false });
+                    }
+                }
+            }
+
+            function resetGame() {
+                currentIndex = mistakeCount = 0;
+                loadQuestion();
+            }
+
+            window.speakText = function () {
+                let text = wordContainer.innerText.trim();
+                let speech = new SpeechSynthesisUtterance(text);
+                speech.lang = "en-US";
+                window.speechSynthesis.speak(speech);
+            }
+
+            function capitalize(text) {
+                return text.charAt(0).toUpperCase() + text.slice(1);
+            }
+
+            function shuffle(array) {
+                return array.sort(() => Math.random() - 0.5);
+            }
         });
     </script>
 </body>
