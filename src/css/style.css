@@ -43,7 +43,7 @@ body {
 }
 
 #word {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   font-weight: bold;
   opacity: 0;
   animation: slideIn 0.8s forwards;
@@ -78,4 +78,15 @@ body {
 .wrong {
   background-color: #ff6b81 !important;
   color: white !important;
+}
+
+.speaker-icon {
+  cursor: pointer;
+  font-size: 24px;
+  color: #007bff;
+  margin-left: 10px;
+}
+
+.speaker-icon:hover {
+  color: #0056b3;
 }

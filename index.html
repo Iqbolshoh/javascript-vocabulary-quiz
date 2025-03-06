@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>✅ Vocabulary Challenge ✅</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="https://iqbolshoh.uz/favicon.ico" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
     <link rel="stylesheet" href="./src/css/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -25,7 +26,10 @@
 
     <div class="card d-none" id="game-card">
         <h4 id="question-number" class="text-muted"></h4>
-        <h2 id="word">🔄</h2>
+        <h2 id="word-container">
+            <span id="word">🔄</span>
+            <i class="fa fa-volume-up speaker-icon" onclick="speakText()"></i>
+        </h2>
         <p id="emoji" class="fs-1">❓</p>
         <div id="options" class="d-grid gap-3"></div>
     </div>
@@ -103,8 +107,6 @@
         }
 
         function checkAnswer(selected) {
-            let buttons = document.querySelectorAll("#options button");
-
             let currentWord = vocabulary[currentIndex];
             let correctAnswer = mode === "Word" ? capitalizeFirstLetter(currentWord.translation) : capitalizeFirstLetter(currentWord.word);
 
@@ -122,25 +124,16 @@
                 setTimeout(loadQuestion, 1200);
             } else {
                 mistakeCount++;
-                if (mistakeCount >= 5) {
-                    Swal.fire({
-                        title: "❌ Juda ko‘p xato qildingiz!",
-                        text: "O‘yin qayta boshlanadi.",
-                        icon: "error",
-                        confirmButtonText: "OK",
-                        backdrop: false,
-                    }).then(resetGame);
-                } else {
-                    Swal.fire({
-                        title: "❌ Noto‘g‘ri!",
-                        text: `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi!`,
-                        icon: "error",
-                        timer: 1500,
-                        showConfirmButton: false,
-                        backdrop: false,
-                        position: "top"
-                    });
-                }
+                Swal.fire({
+                    title: "❌ Noto‘g‘ri!",
+                    text: `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi!`,
+                    icon: "error",
+                    timer: 1500,
+                    showConfirmButton: false,
+                    backdrop: false,
+                    position: "top"
+                });
+                if (mistakeCount >= 5) resetGame();
             }
         }
 
@@ -148,6 +141,15 @@
             currentIndex = 0;
             mistakeCount = 0;
             loadQuestion();
+        }
+
+        function speakText() {
+            let text = document.getElementById("word").innerText.trim();
+            let speech = new SpeechSynthesisUtterance(text);
+            speech.lang = "en-US";
+            speech.rate = 1;
+            speech.pitch = 1;
+            window.speechSynthesis.speak(speech);
         }
 
         document.getElementById("mode-select").addEventListener("change", function () {
