@@ -62,6 +62,10 @@
                 transform: translateY(0);
             }
         }
+
+        #mode-select {
+            display: none;
+        }
     </style>
 </head>
 
@@ -73,8 +77,8 @@
     </select>
 
     <select id="mode-select" class="form-select w-50 mb-3" onchange="loadQuestion()">
-        <option value="word" selected>So‘z → Tarjima</option>
-        <option value="translation">Tarjima → So‘z</option>
+        <option value="Word" selected>Word → Translation</option>
+        <option value="Translation">Translation → Word</option>
     </select>
 
     <div class="card w-50 d-none" id="game-card">
@@ -88,12 +92,7 @@
         let vocabulary = [];
         let currentIndex = 0;
         let mistakeCount = 0;
-        let mode = "word";
-
-        document.getElementById("mode-select").addEventListener("change", function () {
-            mode = this.value;
-            loadQuestion();
-        });
+        let mode = "Word";
 
         function loadVocabulary() {
             let vocabFile = document.getElementById("vocab-select").value;
@@ -106,6 +105,7 @@
                     currentIndex = 0;
                     mistakeCount = 0;
                     document.getElementById("game-card").classList.remove("d-none");
+                    document.getElementById("mode-select").style.display = "block"; // Mode selectni ko‘rsatish
                     loadQuestion();
                 })
                 .catch(error => console.error("Xatolik yuz berdi:", error));
@@ -130,7 +130,7 @@
             let currentWord = vocabulary[currentIndex];
             let questionText, correctAnswer;
 
-            if (mode === "word") {
+            if (mode === "Word") {
                 questionText = currentWord.word;
                 correctAnswer = currentWord.translation;
             } else {
@@ -144,7 +144,7 @@
 
             let options = [correctAnswer];
             while (options.length < 3) {
-                let randomWord = mode === "word" ? vocabulary[Math.floor(Math.random() * vocabulary.length)].translation : vocabulary[Math.floor(Math.random() * vocabulary.length)].word;
+                let randomWord = mode === "Word" ? vocabulary[Math.floor(Math.random() * vocabulary.length)].translation : vocabulary[Math.floor(Math.random() * vocabulary.length)].word;
                 if (!options.includes(randomWord)) {
                     options.push(randomWord);
                 }
@@ -158,7 +158,7 @@
 
         function checkAnswer(selected) {
             let currentWord = vocabulary[currentIndex];
-            let correctAnswer = mode === "word" ? currentWord.translation : currentWord.word;
+            let correctAnswer = mode === "Word" ? currentWord.translation : currentWord.word;
 
             if (selected === correctAnswer) {
                 Swal.fire({
@@ -201,6 +201,12 @@
             mistakeCount = 0;
             loadQuestion();
         }
+
+        document.getElementById("mode-select").addEventListener("change", function () {
+            mode = this.value;
+            loadQuestion();
+        });
+
     </script>
 </body>
 
