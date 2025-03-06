@@ -72,6 +72,11 @@
         <option value="./src/js/vocabulary9.json">Vocabulary 9</option>
     </select>
 
+    <select id="mode-select" class="form-select w-50 mb-3" onchange="loadQuestion()">
+        <option value="word" selected>So‘z → Tarjima</option>
+        <option value="translation">Tarjima → So‘z</option>
+    </select>
+
     <div class="card w-50 d-none" id="game-card">
         <h4 id="question-number" class="text-muted"></h4>
         <h2 id="word">🔄</h2>
@@ -83,6 +88,12 @@
         let vocabulary = [];
         let currentIndex = 0;
         let mistakeCount = 0;
+        let mode = "word";
+
+        document.getElementById("mode-select").addEventListener("change", function () {
+            mode = this.value;
+            loadQuestion();
+        });
 
         function loadVocabulary() {
             let vocabFile = document.getElementById("vocab-select").value;
@@ -117,13 +128,23 @@
             }
 
             let currentWord = vocabulary[currentIndex];
-            document.getElementById("word").innerText = currentWord.word;
+            let questionText, correctAnswer;
+
+            if (mode === "word") {
+                questionText = currentWord.word;
+                correctAnswer = currentWord.translation;
+            } else {
+                questionText = currentWord.translation;
+                correctAnswer = currentWord.word;
+            }
+
+            document.getElementById("word").innerText = questionText;
             document.getElementById("emoji").innerText = currentWord.emoji;
             document.getElementById("question-number").innerText = `Savol ${currentIndex + 1} / ${vocabulary.length}`;
 
-            let options = [currentWord.translation];
+            let options = [correctAnswer];
             while (options.length < 3) {
-                let randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)].translation;
+                let randomWord = mode === "word" ? vocabulary[Math.floor(Math.random() * vocabulary.length)].translation : vocabulary[Math.floor(Math.random() * vocabulary.length)].word;
                 if (!options.includes(randomWord)) {
                     options.push(randomWord);
                 }
@@ -137,7 +158,9 @@
 
         function checkAnswer(selected) {
             let currentWord = vocabulary[currentIndex];
-            if (selected === currentWord.translation) {
+            let correctAnswer = mode === "word" ? currentWord.translation : currentWord.word;
+
+            if (selected === correctAnswer) {
                 Swal.fire({
                     title: "✅ To‘g‘ri!",
                     text: "Davom etamiz!",
