@@ -31,23 +31,23 @@ body {
   transition: all 0.3s;
   font-size: 18px;
   padding: 12px;
-  border-radius: 10px;
-  background-color: #ff6b81;
-  color: white;
+  border-radius: 10px !important;
+  background-color: #ff6b81 !important;
+  color: white !important;
   border: none;
 }
 
 .btn:hover {
-  background-color: #ff6b81;
-  color: white;
+  background-color: #ff6b81 !important;
+  color: white !important;
 }
 
 .btn:active {
-  background-color: #ff4f68;
-  color: white;
-  box-shadow: 0 4px 10px rgba(255, 107, 129, 0.5);
-  font-size: 20px;
-  transform: scale(1.05);
+  background-color: #ff4f68 !important;
+  color: white !important;
+  box-shadow: 0 4px 10px rgba(255, 107, 129, 0.5) !important;
+  font-size: 20px !important;
+  transform: scale(1.05) !important;
 }
 
 #word {
