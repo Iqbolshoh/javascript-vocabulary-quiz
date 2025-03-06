@@ -103,6 +103,8 @@
         }
 
         function checkAnswer(selected) {
+            let buttons = document.querySelectorAll("#options button");
+
             let currentWord = vocabulary[currentIndex];
             let correctAnswer = mode === "Word" ? capitalizeFirstLetter(currentWord.translation) : capitalizeFirstLetter(currentWord.word);
 

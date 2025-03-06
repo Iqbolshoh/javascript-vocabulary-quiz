@@ -64,3 +64,18 @@ body {
 #mode-select {
   display: none;
 }
+
+.selected {
+  background-color: #feca57 !important;
+  color: white !important;
+}
+
+.correct {
+  background-color: #2ed573 !important;
+  color: white !important;
+}
+
+.wrong {
+  background-color: #ff6b81 !important;
+  color: white !important;
+}
