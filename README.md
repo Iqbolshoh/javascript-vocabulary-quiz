@@ -24,7 +24,6 @@ It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and
 4️⃣ Earn points for correct answers, but be careful—**5 mistakes reset the game!**  
 5️⃣ Use the **speaker button** to hear the pronunciation.  
 
----
 
 ## 📂 Project Structure  
 
@@ -36,8 +35,6 @@ It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and
 │── index.html                 # Main UI
 │── README.md                  # Documentation
 ```
-
----
 
 ## 🔧 Setup & Installation  
 
@@ -66,21 +63,6 @@ cd javascript-test-platform
 </div>
 
 ---
-
-## 📌 Future Improvements  
-
-🔹 Add **leaderboard** to track top players.  
-🔹 Implement **dark mode** for better user experience.  
-🔹 Support **multiple languages** for international users.  
-🔹 Create **progress tracking system** for better learning analytics.  
-
----
-
-**⭐ If you like this project, don't forget to star the repository!** 🚀😊  
-
----
-
-Bu versiya **markdown formatiga to‘g‘ri keladi**, shuningdek, badge-lar ham chiroyli ko‘rinadi. README fayling soddalashtirilib, **chiroyli, o‘qilishi oson** bo‘ldi. Agar yana qo‘shimcha bo‘lsa, bemalol ayt! 😍🔥
 
 ## Contributing
 
