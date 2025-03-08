@@ -3,7 +3,7 @@
 A **fun and interactive vocabulary learning game** designed to help users improve their English skills!  
 It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and **text-to-speech support**.  
 
-
+![Banner](banner.png)
 
 ## 🚀 Features  
 
@@ -61,8 +61,6 @@ cd javascript-test-platform
    <img src="https://img.shields.io/badge/JavaScript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" alt="JavaScript">
   <img src="https://img.shields.io/badge/JSON-%23000000.svg?style=for-the-badge&logo=json&logoColor=white" alt="JSON">
 </div>
-
----
 
 ## Contributing
 
