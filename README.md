@@ -40,12 +40,12 @@ It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and
 
 1️⃣ **Clone the repository:**  
 ```bash
-git clone https://github.com/Iqbolshoh/javascript-test-platform.git
+git clone https://github.com/Iqbolshoh/javascript-vocabulary-platform.git
 ```
 
 2️⃣ **Navigate to the project directory:**  
 ```bash
-cd javascript-test-platform
+cd javascript-vocabulary-platform
 ```
 
 3️⃣ **Open `index.html` in your browser and start playing!** 🚀  
