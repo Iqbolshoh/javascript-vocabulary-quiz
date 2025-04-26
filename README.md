@@ -1,4 +1,4 @@
-# 🏆 JavaScript Test Platform  
+# 🏆 JavaScript Vocabulary Platform 
 
 A **fun and interactive vocabulary learning game** designed to help users improve their English skills!  
 It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and **text-to-speech support**.  
