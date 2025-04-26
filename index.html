@@ -14,7 +14,7 @@
 
 <body>
     <select id="vocab-select" class="form-select">
-        <option value="" disabled selected>Lug‘atni tanlang</option>
+        <option value="" disabled selected>Choose a dictionary</option>
         <option value="vocabulary8.json">Vocabulary 8</option>
         <option value="vocabulary9.json">Vocabulary 9</option>
     </select>
@@ -79,7 +79,7 @@
 
             function loadQuestion() {
                 if (currentIndex >= vocabulary.length) {
-                    showResult("🎉 Ajoyib natija!", `Siz barcha so‘zlarni to‘g‘ri topdingiz! Umumiy ball: ${totalScore}`, "success", resetGame);
+                    showResult("🎉 Great result!", `You got all the words right! Total score: ${totalScore}`, "success", resetGame);
                     return;
                 }
 
@@ -120,7 +120,7 @@
                     totalScore += 10;
                     speakText(speakWord);
                     clearInterval(timer);
-                    showResult("✅ To‘g‘ri!", `Davom etamiz! Sizning ballingiz: ${totalScore}`, "success", () => {
+                    showResult("✅ Correct!", `Let's continue! Your score is: ${totalScore}`, "success", () => {
                         currentIndex++;
                         timeLeft = 15;
                         isProcessing = false;
@@ -130,12 +130,12 @@
                     mistakeCount++;
                     if (mistakeCount >= 5) {
                         clearInterval(timer);
-                        showResult("❌ Juda ko‘p xato qildingiz!", `O‘yin qayta boshlanadi. Umumiy ball: ${totalScore}`, "error", () => {
+                        showResult("❌ You made too many mistakes!", `The game will restart. Total score: ${totalScore}`, "error", () => {
                             isProcessing = false;
                             resetGame();
                         });
                     } else {
-                        showResult("❌ Noto‘g‘ri!", `Siz ${mistakeCount} ta xato qildingiz. 5 ta xatodan keyin o‘yin tugaydi! Umumiy ball: ${totalScore}`, "error", () => {
+                        showResult("❌ Wrong!", `You have made ${mistakeCount} mistakes. The game ends after 5 mistakes! Total score: ${totalScore}`, "error", () => {
                             isProcessing = false;
                         });
                     }
@@ -178,7 +178,7 @@
 
                     if (timeLeft <= 0) {
                         clearInterval(timer);
-                        showResult("⏳ Vaqt tugadi!", "Keyingi savolga o‘tamiz.", "info", () => {
+                        showResult("⏳ Time is up!", "Let's move on to the next question.", "info", () => {
                             currentIndex++;
                             loadQuestion();
                         });
@@ -189,7 +189,7 @@
             function updateTimerDisplay() {
                 const minutes = Math.floor(timeLeft / 60);
                 const seconds = timeLeft % 60;
-                questionNumber.innerText = `Vaqt: ${minutes}:${seconds.toString().padStart(2, '0')} | Savol ${currentIndex + 1} / ${vocabulary.length} | Ball: ${totalScore}`;
+                questionNumber.innerText = `Time: ${minutes}:${seconds.toString().padStart(2, '0')} | Question ${currentIndex + 1} / ${vocabulary.length} | Score: ${totalScore}`;
             }
         });
     </script>
