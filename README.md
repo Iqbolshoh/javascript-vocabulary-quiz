@@ -1,4 +1,4 @@
-# 🏆 JavaScript Vocabulary Platform 
+# 🏆 JavaScript Vocabulary Quiz 
 
 A **fun and interactive vocabulary learning game** designed to help users improve their English skills!  
 It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and **text-to-speech support**.  
@@ -40,12 +40,12 @@ It features **AJAX-based dynamic questions**, **SweetAlert2 notifications**, and
 
 1️⃣ **Clone the repository:**  
 ```bash
-git clone https://github.com/Iqbolshoh/javascript-vocabulary-platform.git
+git clone https://github.com/Iqbolshoh/javascript-vocabulary-quiz.git
 ```
 
 2️⃣ **Navigate to the project directory:**  
 ```bash
-cd javascript-vocabulary-platform
+cd javascript-vocabulary-quiz
 ```
 
 3️⃣ **Open `index.html` in your browser and start playing!** 🚀  
